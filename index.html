@@ -269,13 +269,21 @@
                 }
             }
             if (marriedGirls.length > 0) {
-                alert(`Τα κορίτσια που παντρεύτηκαν είναι: ${marriedGirls.join(', ')}`);
                 showFinalPopup();
             }
         }
 
         function showFinalPopup() {
-            document.getElementById('final-popup').style.display = 'block';
+            let marriedGirls = [];
+            for (let girl in girls) {
+                if (girls[girl] >= 6) {
+                    marriedGirls.push(girl);
+                }
+            }
+            if (marriedGirls.length > 0) {
+                alert(`Τα κορίτσια που παντρεύτηκαν είναι: ${marriedGirls.join(', ')}`);
+                document.getElementById('final-popup').style.display = 'block';
+            }
         }
 
         function riskGame() {
@@ -337,7 +345,7 @@
                 }
             }
             if (allFinished) {
-                checkMarriage();
+                checkMarriage(); // Εμφάνιση αποτελέσματος μόνο αν έχουν ολοκληρωθεί όλες οι ερωτήσεις
             }
         }
 
