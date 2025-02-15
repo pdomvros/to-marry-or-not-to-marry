@@ -1,1 +1,123 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Να το πάρεις το κορίτσι…</title>
+    <style>
+        body {
+            background-image: url('atheniangirls2.png');
+            background-size: cover;
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            text-align: center;
+            color: black;
+            font-size: 14px;
+        }
+        h1 {
+            font-size: 1.5em;
+            font-weight: bold;
+        }
+        h2 {
+            font-style: italic;
+            font-size: 1em;
+        }
+        .question-container {
+            display: flex;
+            justify-content: space-around;
+            margin: 20px;
+            font-size: 12px;
+        }
+        .team-column {
+            width: 18%;
+            padding: 10px;
+            border-radius: 10px;
+            background-color: rgba(255, 255, 255, 0.8);
+            cursor: pointer;
+        }
+        .girl-buttons button {
+            margin: 5px;
+            padding: 10px;
+        }
+        #scores {
+            margin-top: 20px;
+        }
+        .score-display {
+            display: inline-block;
+            margin: 0 10px;
+        }
+    </style>
+</head>
+<body onload="playBackgroundMusic()">
+    <audio id="background-music" src="marrygirl.mp3" autoplay loop></audio>
+    <audio id="coin-sound" src="coin.mp3"></audio>
+    <audio id="fail-sound" src="fail-sound.mp3"></audio>
 
+    <h3>Δημιουργία: Παναγιώτης Δόμβρος 2025 (CC BY-NC)</h3>
+    <h1>Να το πάρεις το κορίτσι…</h1>
+    <h2>Από τις άλλες περιπτώσεις γάμων [ο Σόλων] κατάργησε την προίκα, ορίζοντας να έχει η νύφη τρία φορέματα και διάφορα σκεύη που είχαν μικρή αξία και τίποτε άλλο. Με τις ενέργειες αυτές ήθελε να δηλώσει ότι ο γάμος δεν γίνεται για να πάρει κάποιος μισθό ή να κάνει μια εμπορική συμφωνία. Ο γάμος γίνεται για να αποκτήσει το αντρόγυνο παιδιά και να ζήσουν όλοι μια όμορφη ζωή και αγαπημένη.</h2>
+
+    <div>
+        <p><strong>Κλειώ (κόρη μετοίκου):</strong> Χρειάζεται οικονομική υποστήριξη για να εξασφαλίσει την αποδοχή της στην αθηναϊκή κοινωνία.</p>
+        <p><strong>Ευριδίκη (κόρη εύπορης οικογένειας):</strong> Η προίκα της είναι εντυπωσιακή, αλλά χρειάζεται ακόμα περισσότερα για να ξεπεράσει τον ανταγωνισμό.</p>
+        <p><strong>Ναυσικά (κόρη τεχνίτη):</strong> Η οικογένειά της έχει περιορισμένους πόρους, οπότε βασίζεται στη γενναιοδωρία των συμπολιτών της.</p>
+        <p><strong>Αντιγόνη (κόρη πολίτη που έχασε την περιουσία του):</strong> Η πιο δύσκολη περίπτωση, καθώς χρειάζεται σημαντική υποστήριξη για να εξασφαλίσει γάμο.</p>
+    </div>
+
+    <div class="girl-buttons">
+        <button onclick="chooseGirl('Κλειώ')">Κλειώ</button>
+        <button onclick="chooseGirl('Ευριδίκη')">Ευριδίκη</button>
+        <button onclick="chooseGirl('Ναυσικά')">Ναυσικά</button>
+        <button onclick="chooseGirl('Αντιγόνη')">Αντιγόνη</button>
+    </div>
+
+    <div class="question-container">
+        <div class="team-column" data-team="A">Εύποροι πολίτες</div>
+        <div class="team-column" data-team="B">Έμποροι & μέτοικοι</div>
+        <div class="team-column" data-team="C">Τεχνίτες & αγρότες</div>
+        <div class="team-column" data-team="D">Φιλόσοφοι & ρήτορες</div>
+        <div class="team-column" data-team="E">Ιερείς & μάντεις</div>
+    </div>
+
+    <button class="risk-button" onclick="riskGame()">Ρίσκο! Κέρδισε 5 ή χάσε 3 νομίσματα</button>
+
+    <div id="scores">
+        <div class="score-display">Ομάδα Α: <span id="score-A">0</span></div>
+        <div class="score-display">Ομάδα Β: <span id="score-B">0</span></div>
+        <div class="score-display">Ομάδα Γ: <span id="score-C">0</span></div>
+        <div class="score-display">Ομάδα Δ: <span id="score-D">0</span></div>
+        <div class="score-display">Ομάδα Ε: <span id="score-E">0</span></div>
+        <div class="score-display">Κλειώ: <span id="score-Κλειώ">0</span></div>
+        <div class="score-display">Ευριδίκη: <span id="score-Ευριδίκη">0</span></div>
+        <div class="score-display">Ναυσικά: <span id="score-Ναυσικά">0</span></div>
+        <div class="score-display">Αντιγόνη: <span id="score-Αντιγόνη">0</span></div>
+    </div>
+
+    <script>
+        let teamScores = {
+            A: 0,
+            B: 0,
+            C: 0,
+            D: 0,
+            E: 0
+        };
+        let girls = {
+            Κλειώ: 0,
+            Ευριδίκη: 0,
+            Ναυσικά: 0,
+            Αντιγόνη: 0
+        };
+        let questions = {
+            A: [
+                { question: "Ο Περικλής καθοδηγούσε το λαό χωρίς να περιορίζει την ελευθερία του.", answer: true },
+                { question: "Οι Αθηναίοι θεωρούσαν τις γιορτές ως περιττή σπατάλη χρόνου.", answer: false },
+                { question: "Ο Θεόπομπος ξόδεψε λίγα χρήματα για τις λειτουργίες στις οποίες συμμετείχε.", answer: false },
+                { question: "Οι δικαστές της Ηλιαίας δεν ορκίζονταν πριν αναλάβουν τα καθήκοντά τους.", answer: false },
+                { question: "Οι Αθηναίοι πλούσιοι πολίτες δεν ήταν υποχρεωμένοι να αναλαμβάνουν δημόσιες δαπάνες.", answer: false },
+                { question: "Σύμφωνα με τον Ξενοφώντα, η κατανομή των εργασιών στο σπίτι και εκτός αυτού ήταν φυσική και θεόσταλτη.", answer: true },
+                { question: "Οι γιορτές βοηθούσαν τους Αθηναίους να ξεχάσουν τις δυσκολίες της ζωής τους.", answer: true },
+                { question: "Η πολιτεία φαινόταν δημοκρατική, αλλά στην πραγματικότητα κυβερνούσε ο Περικλής.", answer: true }
+            ],
+            B: [
+                { question: "Οι μέτοικοι προσέφεραν πολλά στην πόλη αλλά πλήρωναν ειδικό φόρο.", answer: true },
+                { question: "Ο Περικλής επεδίωκε την επιρροή του μέσω δωροδοκιών και κολακείας.", answer: false },
+                { question: "Η Εκκλησία του Δήμου απέκτησε περισσότερη δύναμη μετά
