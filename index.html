@@ -161,8 +161,7 @@
     <!-- Final Pop-up -->
     <div id="final-popup" class="final-popup">
         <img src="atheniangirls1.png" alt="Athenian Girls">
-        <p>Εμείς δε θέλουμε προίκα! 
-            Celebrate Girl Power! 💪👩‍🎓👩‍🔧👩‍🌾👩‍🚀</p>
+        <p>Εμείς δε θέλουμε προίκα! Celebrate Girl Power! 💪👩‍🎓👩‍🔧👩‍🌾👩‍🚀</p>
     </div>
 
     <script>
@@ -265,26 +264,18 @@
         function checkMarriage() {
             let marriedGirls = [];
             for (let girl in girls) {
-                if (girls[girl] >= 6) {
-                    marriedGirls.push(girl);
+                if (girls[girl] > 0) { // Αφαιρέθηκε το όριο των 6 νομισμάτων
+                    marriedGirls.push(`${girl} (${girls[girl]} νομίσματα)`);
                 }
             }
             if (marriedGirls.length > 0) {
-                showFinalPopup();
+                showFinalPopup(marriedGirls);
             }
         }
 
-        function showFinalPopup() {
-            let marriedGirls = [];
-            for (let girl in girls) {
-                if (girls[girl] >= 6) {
-                    marriedGirls.push(girl);
-                }
-            }
-            if (marriedGirls.length > 0) {
-                alert(`Τα κορίτσια που παντρεύτηκαν είναι: ${marriedGirls.join(', ')}`);
-                document.getElementById('final-popup').style.display = 'block';
-            }
+        function showFinalPopup(marriedGirls) {
+            alert(`Τα κορίτσια που παντρεύτηκαν είναι: ${marriedGirls.join(', ')}`);
+            document.getElementById('final-popup').style.display = 'block';
         }
 
         function riskGame() {
@@ -292,9 +283,11 @@
             if (risk) {
                 teamScores[selectedTeam] += 5;
                 playCoinSound();
+                alert("Ένας ευεργέτης προσφέρει 5 επιπλέον νομίσματα!");
             } else {
                 teamScores[selectedTeam] -= 3;
                 playFailSound();
+                alert("Ένας απατεώνας εξαπατά τους εμπόρους, χάνονται 3 νομίσματα!");
             }
             document.getElementById(`score-${selectedTeam}`).textContent = teamScores[selectedTeam];
         }
