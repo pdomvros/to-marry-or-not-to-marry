@@ -101,6 +101,13 @@
             height: auto;
             margin-bottom: 10px;
         }
+        #result-button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 1em;
+            cursor: pointer;
+            display: none; /* Αρχικά κρυφό */
+        }
     </style>
 </head>
 <body onload="playBackgroundMusic()">
@@ -163,6 +170,9 @@
         <img src="atheniangirls1.png" alt="Athenian Girls">
         <p>Εμείς δε θέλουμε προίκα! Celebrate Girl Power! 💪👩‍🎓👩‍🔧👩‍🌾👩‍🚀</p>
     </div>
+
+    <!-- Κουμπί ΑΠΟΤΕΛΕΣΜΑ -->
+    <button id="result-button" onclick="showResult()">ΑΠΟΤΕΛΕΣΜΑ</button>
 
     <script>
         let teamScores = {
@@ -258,24 +268,6 @@
             girls[girl] += teamScores[selectedTeam];
             document.getElementById(`score-${girl}`).textContent = girls[girl];
             playCoinSound();
-            checkMarriage();
-        }
-
-        function checkMarriage() {
-            let marriedGirls = [];
-            for (let girl in girls) {
-                if (girls[girl] > 0) { // Αφαιρέθηκε το όριο των 6 νομισμάτων
-                    marriedGirls.push(`${girl} (${girls[girl]} νομίσματα)`);
-                }
-            }
-            if (marriedGirls.length > 0) {
-                showFinalPopup(marriedGirls);
-            }
-        }
-
-        function showFinalPopup(marriedGirls) {
-            alert(`Τα κορίτσια που παντρεύτηκαν είναι: ${marriedGirls.join(', ')}`);
-            document.getElementById('final-popup').style.display = 'block';
         }
 
         function riskGame() {
@@ -346,7 +338,22 @@
                 }
             }
             if (allFinished) {
-                checkMarriage(); // Εμφάνιση αποτελέσματος μόνο αν έχουν ολοκληρωθεί όλες οι ερωτήσεις
+                document.getElementById('result-button').style.display = 'block'; // Εμφάνιση του κουμπιού ΑΠΟΤΕΛΕΣΜΑ
+            }
+        }
+
+        function showResult() {
+            let marriedGirls = [];
+            for (let girl in girls) {
+                if (girls[girl] > 0) { // Αφαιρέθηκε το όριο των 6 νομισμάτων
+                    marriedGirls.push(`${girl} (${girls[girl]} νομίσματα)`);
+                }
+            }
+            if (marriedGirls.length > 0) {
+                alert(`Τα κορίτσια που παντρεύτηκαν είναι: ${marriedGirls.join(', ')}`);
+                document.getElementById('final-popup').style.display = 'block';
+            } else {
+                alert("Κανένα κορίτσι δεν παντρεύτηκε.");
             }
         }
     </script>
