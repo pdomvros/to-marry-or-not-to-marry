@@ -161,7 +161,8 @@
     <!-- Final Pop-up -->
     <div id="final-popup" class="final-popup">
         <img src="atheniangirls1.png" alt="Athenian Girls">
-        <p>Εμείς δε θέλουμε προίκα! Celebrate Girl Power! 💪👩‍🎓👩‍🔧👩‍🌾👩‍🚀</p>
+        <p>Εμείς δε θέλουμε προίκα! 
+            Celebrate Girl Power! 💪👩‍🎓👩‍🔧👩‍🌾👩‍🚀</p>
     </div>
 
     <script>
@@ -300,11 +301,13 @@
 
         let selectedTeam = null;
         let currentQuestion = null;
+        let isFirstQuestion = true; // Ελέγχει αν είναι η πρώτη ερώτηση για την ομάδα
 
         document.querySelectorAll('.team-column').forEach(column => {
             column.addEventListener('click', () => {
                 selectedTeam = column.getAttribute('data-team');
                 if (!column.classList.contains('disabled')) {
+                    isFirstQuestion = true; // Είναι η πρώτη ερώτηση για την ομάδα
                     askQuestion(selectedTeam);
                 }
             });
@@ -333,7 +336,12 @@
                 playFailSound();
             }
             document.getElementById(`score-${selectedTeam}`).textContent = teamScores[selectedTeam];
-            setTimeout(() => askQuestion(selectedTeam), 1000); // Αυτόματη εμφάνιση της επόμενης ερώτησης μετά από 1 δευτερόλεπτο
+
+            if (isFirstQuestion) {
+                isFirstQuestion = false; // Η πρώτη ερώτηση έχει ολοκληρωθεί
+            } else {
+                setTimeout(() => askQuestion(selectedTeam), 1000); // Αυτόματη εμφάνιση της επόμενης ερώτησης μετά από 1 δευτερόλεπτο
+            }
         }
 
         function checkAllQuestionsFinished() {
@@ -348,9 +356,6 @@
                 checkMarriage(); // Εμφάνιση αποτελέσματος μόνο αν έχουν ολοκληρωθεί όλες οι ερωτήσεις
             }
         }
-
-        // Αρχικοποίηση: Εμφάνιση της πρώτης ερώτησης
-        setTimeout(() => askQuestion('A'), 1000); // Ξεκινάμε με την ομάδα Α μετά από 1 δευτερόλεπτο
     </script>
 </body>
 </html>
