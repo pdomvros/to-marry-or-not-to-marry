@@ -18,7 +18,8 @@
             font-weight: bold;
         }
         h2, div p {
-            color: white;
+            color: black; /* Αλλαγή από λευκό σε μαύρο */
+            font-weight: bold; /* Προσθήκη bold */
         }
         h2 {
             font-style: italic;
@@ -47,11 +48,29 @@
         .score-display {
             display: inline-block;
             margin: 0 10px;
+            color: black; /* Αλλαγή από λευκό σε μαύρο */
+            font-weight: bold; /* Προσθήκη bold */
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+        }
+        .modal button {
+            margin: 5px;
+            padding: 10px;
         }
     </style>
 </head>
 <body onload="playBackgroundMusic()">
-    <audio id="background-music" src="marrygirl.mp3" autoplay loop></audio>
+    <audio id="background-music" src="marrygirl.mp3" loop></audio>
     <audio id="coin-sound" src="coin.mp3"></audio>
     <audio id="fail-sound" src="fail-sound.mp3"></audio>
 
@@ -93,6 +112,13 @@
         <div class="score-display">Ευριδίκη: <span id="score-Ευριδίκη">0</span></div>
         <div class="score-display">Ναυσικά: <span id="score-Ναυσικά">0</span></div>
         <div class="score-display">Αντιγόνη: <span id="score-Αντιγόνη">0</span></div>
+    </div>
+
+    <!-- Modal για τις ερωτήσεις -->
+    <div id="question-modal" class="modal">
+        <p id="modal-question"></p>
+        <button onclick="answerQuestion(true)">Σωστό</button>
+        <button onclick="answerQuestion(false)">Λάθος</button>
     </div>
 
     <script>
@@ -163,7 +189,12 @@
         };
 
         function playBackgroundMusic() {
-            document.getElementById('background-music').play();
+            let audio = document.getElementById('background-music');
+            audio.play().catch(() => {
+                // Αν το autoplay αποτύχει, εμφανίζουμε ένα μήνυμα
+                alert("Πατήστε 'OK' για να ξεκινήσει η μουσική.");
+                audio.play();
+            });
         }
 
         function playCoinSound() {
@@ -206,6 +237,7 @@
         }
 
         let selectedTeam = null;
+        let currentQuestion = null;
 
         document.querySelectorAll('.team-column').forEach(column => {
             column.addEventListener('click', () => {
@@ -216,15 +248,20 @@
 
         function askQuestion(team) {
             let questionSet = questions[team];
-            let randomQuestion = questionSet[Math.floor(Math.random() * questionSet.length)];
-            let userAnswer = confirm(randomQuestion.question);
-            if (userAnswer === randomQuestion.answer) {
-                teamScores[team]++;
+            currentQuestion = questionSet[Math.floor(Math.random() * questionSet.length)];
+            document.getElementById('modal-question').textContent = currentQuestion.question;
+            document.getElementById('question-modal').style.display = 'block';
+        }
+
+        function answerQuestion(answer) {
+            document.getElementById('question-modal').style.display = 'none';
+            if (answer === currentQuestion.answer) {
+                teamScores[selectedTeam]++;
                 playCoinSound();
             } else {
                 playFailSound();
             }
-            document.getElementById(`score-${team}`).textContent = teamScores[team];
+            document.getElementById(`score-${selectedTeam}`).textContent = teamScores[selectedTeam];
         }
     </script>
 </body>
