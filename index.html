@@ -16,7 +16,7 @@
         h1 {
             font-size: 1.5em;
             font-weight: bold;
-            color: white; /* Λευκό χρώμα για τον τίτλο */
+            color: white;
         }
         h2, div p {
             color: black;
@@ -31,7 +31,7 @@
             margin-top: 10px;
         }
         .gold-text {
-            color: gold; /* Χρυσό χρώμα για τον Αμφορέα της Προίκας */
+            color: gold;
             font-weight: bold;
         }
         .question-container {
@@ -46,10 +46,23 @@
             border-radius: 10px;
             background-color: rgba(255, 255, 255, 0.8);
             cursor: pointer;
+            margin: 5px;
+            text-align: center;
+            font-size: 14px;
+            color: black;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+        }
+        .team-column:hover {
+            background-color: rgba(255, 255, 255, 1);
         }
         .team-column.disabled {
             background-color: rgba(200, 200, 200, 0.8);
             cursor: not-allowed;
+        }
+        .team-column::before {
+            content: "📁";
+            margin-right: 5px;
         }
         .girl-buttons button {
             margin: 5px;
@@ -83,40 +96,41 @@
         .girl-stories p {
             font-size: 1.1em;
         }
-        .final-popup {
+        .popup-tab {
             display: none;
             position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background-color: white;
-            padding: 20px;
+            bottom: 20px;
+            right: 20px;
+            background-color: #ffcc00;
+            padding: 10px;
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
             z-index: 1000;
-            text-align: center;
+            color: black;
+            font-weight: bold;
+            font-size: 14px;
         }
-        .final-popup img {
-            max-width: 100%;
-            height: auto;
-            margin-bottom: 10px;
+        .popup-tab.show {
+            display: block;
         }
-        /* Εντονότερο κουμπί ΑΠΟΤΕΛΕΣΜΑ */
+        .popup-tab .emoji {
+            font-size: 20px;
+        }
         #result-button {
             margin-top: 20px;
             padding: 15px 30px;
             font-size: 1.2em;
             cursor: pointer;
-            display: none; /* Αρχικά κρυφό */
-            background-color: #0044cc; /* Σκούρο μπλε */
-            color: white; /* Λευκό κείμενο */
+            display: none;
+            background-color: #0044cc;
+            color: white;
             border: none;
             border-radius: 10px;
             font-weight: bold;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
         }
         #result-button:hover {
-            background-color: #003399; /* Ακόμα πιο σκούρο μπλε στο hover */
+            background-color: #003399;
         }
     </style>
 </head>
@@ -126,7 +140,7 @@
     <audio id="fail-sound" src="fail-sound.mp3"></audio>
 
     <h3>Δημιουργία: Παναγιώτης Δόμβρος 2025 (CC BY-NC)</h3>
-    <h1>Να το πάρεις το κορίτσι…</h1>
+    <h1><button id="title-button" onclick="playMarryGirl()">Να το πάρεις το κορίτσι…</button></h1>
     <div class="subtitle">
         Βοήθηστε κι εσείς να γεμίσει ο <span class="gold-text">Αμφορέας της Προίκας</span> απαντώντας σωστά σε όσες περισσότερες ερωτήσεις μπορείτε. Επιλέξτε με σύνεση το κορίτσι που θα βοηθήσετε! 🏺
     </div>
@@ -176,9 +190,8 @@
     </div>
 
     <!-- Final Pop-up -->
-    <div id="final-popup" class="final-popup">
-        <img src="atheniangirls1.png" alt="Athenian Girls">
-        <p>Εμείς δε θέλουμε προίκα! Celebrate Girl Power! 💪👩‍🎓👩‍🔧👩‍🌾👩‍🚀</p>
+    <div id="final-popup" class="popup-tab">
+        <span class="emoji">🎉</span> Εμείς δε θέλουμε προίκα! Celebrate Girl Power! 💪👩‍🎓👩‍🔧👩‍🌾👩‍🚀
     </div>
 
     <!-- Κουμπί ΑΠΟΤΕΛΕΣΜΑ -->
@@ -266,6 +279,11 @@
             });
         }
 
+        function playMarryGirl() {
+            let audio = new Audio('marrygirl.mp3');
+            audio.play();
+        }
+
         function playCoinSound() {
             document.getElementById('coin-sound').play();
         }
@@ -296,13 +314,13 @@
 
         let selectedTeam = null;
         let currentQuestion = null;
-        let isFirstQuestion = true; // Ελέγχει αν είναι η πρώτη ερώτηση για την ομάδα
+        let isFirstQuestion = true;
 
         document.querySelectorAll('.team-column').forEach(column => {
             column.addEventListener('click', () => {
                 selectedTeam = column.getAttribute('data-team');
                 if (!column.classList.contains('disabled')) {
-                    isFirstQuestion = true; // Είναι η πρώτη ερώτηση για την ομάδα
+                    isFirstQuestion = true;
                     askQuestion(selectedTeam);
                 }
             });
@@ -317,7 +335,7 @@
             }
             let randomIndex = Math.floor(Math.random() * remainingQuestions[team].length);
             currentQuestion = remainingQuestions[team][randomIndex];
-            remainingQuestions[team].splice(randomIndex, 1); // Αφαίρεση της ερώτησης από τη λίστα
+            remainingQuestions[team].splice(randomIndex, 1);
             document.getElementById('modal-question').textContent = currentQuestion.question;
             document.getElementById('question-modal').style.display = 'block';
         }
@@ -333,9 +351,9 @@
             document.getElementById(`score-${selectedTeam}`).textContent = teamScores[selectedTeam];
 
             if (isFirstQuestion) {
-                isFirstQuestion = false; // Η πρώτη ερώτηση έχει ολοκληρωθεί
+                isFirstQuestion = false;
             } else {
-                setTimeout(() => askQuestion(selectedTeam), 1000); // Αυτόματη εμφάνιση της επόμενης ερώτησης μετά από 1 δευτερόλεπτο
+                setTimeout(() => askQuestion(selectedTeam), 1000);
             }
         }
 
@@ -348,20 +366,20 @@
                 }
             }
             if (allFinished) {
-                document.getElementById('result-button').style.display = 'block'; // Εμφάνιση του κουμπιού ΑΠΟΤΕΛΕΣΜΑ
+                document.getElementById('result-button').style.display = 'block';
             }
         }
 
         function showResult() {
             let marriedGirls = [];
             for (let girl in girls) {
-                if (girls[girl] > 0) { // Αφαιρέθηκε το όριο των 6 νομισμάτων
+                if (girls[girl] > 0) {
                     marriedGirls.push(`${girl} (${girls[girl]} νομίσματα)`);
                 }
             }
             if (marriedGirls.length > 0) {
                 alert(`Τα κορίτσια που παντρεύτηκαν είναι: ${marriedGirls.join(', ')}`);
-                document.getElementById('final-popup').style.display = 'block';
+                document.getElementById('final-popup').classList.add('show');
             } else {
                 alert("Κανένα κορίτσι δεν παντρεύτηκε.");
             }
