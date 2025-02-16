@@ -132,6 +132,25 @@
         #result-button:hover {
             background-color: #003399;
         }
+        #title-button {
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            font-size: 2.5em;
+            font-weight: bold;
+            color: #ff1493;
+            background-color: #ffeb3b;
+            border: 3px solid #ff1493;
+            border-radius: 15px;
+            padding: 15px 30px;
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+        }
+        #title-button:hover {
+            background-color: #ff1493;
+            color: #ffffff;
+            border-color: #ffeb3b;
+            transform: scale(1.05);
+        }
     </style>
 </head>
 <body onload="playBackgroundMusic()">
@@ -140,7 +159,9 @@
     <audio id="fail-sound" src="fail-sound.mp3"></audio>
 
     <h3>Δημιουργία: Παναγιώτης Δόμβρος 2025 (CC BY-NC)</h3>
-    <h1><button id="title-button" onclick="playMarryGirl()">Να το πάρεις το κορίτσι…</button></h1>
+    <h1>
+        <button id="title-button" onclick="playMarryGirl()">💍 Να το πάρεις το κορίτσι… 👰</button>
+    </h1>
     <div class="subtitle">
         Βοήθηστε κι εσείς να γεμίσει ο <span class="gold-text">Αμφορέας της Προίκας</span> απαντώντας σωστά σε όσες περισσότερες ερωτήσεις μπορείτε. Επιλέξτε με σύνεση το κορίτσι που θα βοηθήσετε! 🏺
     </div>
